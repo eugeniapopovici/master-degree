@@ -29,7 +29,10 @@ CREATE TABLE movies (
   movie_rating integer,
   movie_name char(30),
   genre char(20),
-  duration integer
+  director char(50),
+  duration integer,
+  three_D boolean,
+  release_date date
 );
 
 --changeset srotari: 2
@@ -91,4 +94,50 @@ CREATE TABLE performance_numbers(
     PRIMARY KEY,
   performance_start_time time,
   performance_end_time time
+);
+
+--changeset epopovici: 2
+CREATE TABLE all_performance_seats (
+  cinema_id integer
+    NOT NULL,
+  row_number integer
+    NOT NULL,
+  seat_number integer
+    NOT NULL,
+  performance_date date
+    NOT NULL,
+  performance_number integer
+    REFERENCES performance_numbers(id),
+  seat_status_code integer
+    REFERENCES seat_status(id)
+    NOT NULL,
+  booking_id integer
+    REFERENCES booking(id)
+    NOT NULL,
+
+  FOREIGN KEY (cinema_id, row_number)
+  REFERENCES row_seats (cinema_id, row_number),
+  CONSTRAINT all_performance_seats_pk
+  PRIMARY KEY (cinema_id, row_number, seat_number, performance_date)
+);
+
+CREATE TABLE booked_performance_seats (
+  cinema_id integer
+    NOT NULL,
+  row_number integer
+    NOT NULL,
+  seat_number integer
+    NOT NULL,
+  performance_date date
+    NOT NULL,
+  performance_number integer
+    REFERENCES performance_numbers(id),
+  booking_id integer
+    REFERENCES booking(id)
+    NOT NULL,
+
+  FOREIGN KEY (cinema_id, row_number)
+  REFERENCES row_seats (cinema_id, row_number),
+  CONSTRAINT booked_performance_seats_pk
+  PRIMARY KEY (cinema_id, row_number, seat_number, performance_date, performance_number)
 );
