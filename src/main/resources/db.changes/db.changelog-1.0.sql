@@ -37,13 +37,13 @@ CREATE TABLE cinema_category (
     NOT NULL
     REFERENCES categories(id)
     ON DELETE CASCADE,
+  capacity INTEGER,
 
   CONSTRAINT cinema_category_pk
     PRIMARY KEY (cinema_id, category_id)
 );
 
 --changeset srotari:2
-
 CREATE TABLE movies (
   id INTEGER
     NOT NULL
