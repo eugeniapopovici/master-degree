@@ -1,13 +1,13 @@
 --liquibase formatted sql
 
---changeset nbalan:1
+--changeset epopovici:1
 CREATE TABLE addresses (
   id INTEGER
     NOT NULL
     PRIMARY KEY,
   country CHAR(30),
   city CHAR(30),
-  address CHAR(50)
+  address_line CHAR(50)
 );
 
 CREATE TABLE cinemas (
@@ -28,7 +28,7 @@ CREATE TABLE categories (
   category_name CHAR(1)
 );
 
-CREATE TABLE cinema_category (
+CREATE TABLE cinema_categories (
   cinema_id INTEGER
     NOT NULL
     REFERENCES cinemas(id)
@@ -92,7 +92,7 @@ CREATE TABLE customers (
   customer_phone CHAR(20)
 );
 
-CREATE TABLE booking(
+CREATE TABLE bookings(
   id INTEGER
     NOT NULL
     PRIMARY KEY,
