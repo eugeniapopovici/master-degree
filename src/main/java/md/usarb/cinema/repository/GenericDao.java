@@ -1,13 +1,15 @@
 package md.usarb.cinema.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
+import java.util.List;
 
 public class GenericDao<T, PK extends Serializable> implements IGenericDao<T, PK> {
 
-    @PersistenceContext(name = "PGSQLPU")
-    protected EntityManager entityManager;
+    public EntityManager entityManager = Persistence.createEntityManagerFactory("PGSQLPU").createEntityManager();
 
     public T create(T t) {
         this.entityManager.persist(t);
@@ -25,6 +27,19 @@ public class GenericDao<T, PK extends Serializable> implements IGenericDao<T, PK
     public void delete(T t) {
         t = this.entityManager.merge(t);
         this.entityManager.remove(t);
+    }
+
+    /**
+     * Finds all objects of an entity class.
+     *
+     * @param clazz the entity class.
+     * @return
+     */
+    public List<T> findAll(Class<T> clazz) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(clazz);
+        cq.from(clazz);
+        return entityManager.createQuery(cq).getResultList();
     }
 
 }

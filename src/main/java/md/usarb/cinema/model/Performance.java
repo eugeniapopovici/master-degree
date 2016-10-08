@@ -11,8 +11,9 @@ import java.time.LocalTime;
 public class Performance {
 
     @Id
-    @SequenceGenerator(name = "performancesSeq", sequenceName = "performances_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performancessSeq")
+//    @SequenceGenerator(name = "performancesSeq", sequenceName = "performances_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "performancessSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 

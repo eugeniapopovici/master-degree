@@ -1,4 +1,4 @@
 package md.usarb.cinema.service;
 
-public interface IFilmService {
+public class MovieServiceImpl {
 }

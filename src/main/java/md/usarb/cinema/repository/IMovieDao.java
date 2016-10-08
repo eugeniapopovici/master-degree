@@ -3,11 +3,9 @@ package md.usarb.cinema.repository;
 import java.io.Serializable;
 import java.util.List;
 
-public interface IGenericDao<T, PK extends Serializable> {
+interface IMovieDao<T, PK extends Serializable> extends IGenericDao<T, PK> {
 
     T create(T t);
-
-    T read(PK id);
 
     T update(T t);
 

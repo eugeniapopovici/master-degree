@@ -26,4 +26,23 @@ public class CinemaCategoryPK implements Serializable {
         this.cinema = cinema;
         this.category = category;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CinemaCategoryPK)) return false;
+
+        CinemaCategoryPK that = (CinemaCategoryPK) o;
+
+        if (!cinema.equals(that.cinema)) return false;
+        return category.equals(that.category);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cinema.hashCode();
+        result = 31 * result + category.hashCode();
+        return result;
+    }
 }

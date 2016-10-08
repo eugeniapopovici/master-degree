@@ -11,8 +11,9 @@ import javax.persistence.*;
 public class Cinema {
 
     @Id
-    @SequenceGenerator(name = "cinemasSeq", sequenceName = "cinemas_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cinemassSeq")
+//    @SequenceGenerator(name = "cinemasSeq", sequenceName = "cinemas_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cinemassSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -23,7 +24,7 @@ public class Cinema {
     @PrimaryKeyJoinColumn
     private Address cinemaAddress;
 
-    @Column(name = "cinema_name")
+    @Column(name = "cinema_phone")
     private String cinemaPhone;
 
     public Long getId() {

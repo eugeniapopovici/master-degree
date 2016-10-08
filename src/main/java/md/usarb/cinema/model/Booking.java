@@ -11,8 +11,9 @@ import java.time.LocalDate;
 public class Booking {
 
     @Id
-    @SequenceGenerator(name = "bookingsSeq", sequenceName = "bookings_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookingsSeq")
+//    @SequenceGenerator(name = "bookingsSeq", sequenceName = "bookings_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookingsSeq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
