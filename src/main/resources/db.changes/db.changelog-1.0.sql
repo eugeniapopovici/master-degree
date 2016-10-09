@@ -5,27 +5,27 @@ CREATE TABLE addresses (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  country CHAR(30),
-  city CHAR(30),
-  address_line CHAR(50)
+  country VARCHAR(30),
+  city VARCHAR(30),
+  address_line VARCHAR(50)
 );
 
 CREATE TABLE cinemas (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  cinema_name CHAR(30),
+  cinema_name VARCHAR(30),
   address_id INTEGER
     NOT NULL
     REFERENCES addresses(id),
-  cinema_phone CHAR(20)
+  cinema_phone VARCHAR(20)
 );
 
 CREATE TABLE categories (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  category_name CHAR(1)
+  category_name VARCHAR(1)
 );
 
 CREATE TABLE cinema_categories (
@@ -49,10 +49,10 @@ CREATE TABLE movies (
     NOT NULL
     PRIMARY KEY,
   rating INTEGER,
-  name CHAR(100),
-  description CHAR(500),
-  genre CHAR(20),
-  stage_director CHAR(50),
+  name VARCHAR(100),
+  description VARCHAR(500),
+  genre VARCHAR(20),
+  stage_director VARCHAR(50),
   duration INTEGER,
   three_D BOOLEAN,
   release_date DATE
@@ -88,8 +88,8 @@ CREATE TABLE customers (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  customer_name CHAR(50),
-  customer_phone CHAR(20)
+  customer_name VARCHAR(50),
+  customer_phone VARCHAR(20)
 );
 
 CREATE TABLE bookings(
