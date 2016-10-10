@@ -19,7 +19,7 @@ public class CinemaServiceImpl implements ICinemaService {
 
     @GET
     @Path("/home")
-    @Produces( { MediaType.APPLICATION_JSON })
+    @Produces({MediaType.APPLICATION_JSON})
     public String getCustomer() {
 
 
@@ -30,22 +30,31 @@ public class CinemaServiceImpl implements ICinemaService {
 
     }
 
-//    @POST
+    @POST
+    @Path("/movies/filter")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+    public String applyMovieFilter(@FormParam("textfield-1014-inputEl") String param) {
+        String success = "true";
+        return new JSONSerializer().rootName("data").serialize(success);
+    }
+
+    //    @POST
     @GET
     @Path("/booking/movieId/{value}")
-    @Consumes({ MediaType.TEXT_PLAIN })
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Consumes({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     public String getCinemasByMovieId(@PathParam("value") Long movieId) {
         List<Cinema> cinemas = movieDao.loadCinemasByMovieId(movieId);
 
         return new JSONSerializer().exclude("*.class").serialize(cinemas);
     }
 
-//    @POST
+    //    @POST
     @GET
     @Path("/booking/movieId/{movieId}/cinemaId/{cinemaId}")
-    @Consumes({ MediaType.TEXT_PLAIN })
-    @Produces({ MediaType.APPLICATION_JSON })
+    @Consumes({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     public String getPerformancesByMovieAndCinemaIds(@PathParam("movieId") Long movieId, @PathParam("cinemaId") Long cinemaId) {
         List<Cinema> cinemas = movieDao.loadPerformancesByMovieAndCinemaIds(movieId, cinemaId);
 
@@ -54,8 +63,8 @@ public class CinemaServiceImpl implements ICinemaService {
 
     @POST
     @Path("/booking")
-    @Consumes({ MediaType.APPLICATION_JSON })
-    @Produces({ MediaType.TEXT_PLAIN })
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_PLAIN})
     public String addBooking(Booking booking) {
         if (booking != null) {
             movieDao.create(booking);
