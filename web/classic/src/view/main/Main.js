@@ -15,7 +15,9 @@ Ext.define('Cinema.view.main.Main', {
 
         'Cinema.view.main.MainController',
         'Cinema.view.main.MainModel',
-        'Cinema.view.main.List'
+        'Cinema.view.main.List',
+
+        'Cinema.view.form.FilterForm'
     ],
 
     controller: 'main',
@@ -76,29 +78,13 @@ Ext.define('Cinema.view.main.Main', {
     },
 
     items: [{
-        title: 'Home',
+        title: 'Movies',
         iconCls: 'fa-home',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
+                xtype: 'filter-form'
+        },{
             xtype: 'mainlist'
         }]
-    }, {
-        title: 'Users',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
     }]
 });

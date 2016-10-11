@@ -9,6 +9,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "cinemas")
+@NamedQueries({
+        @NamedQuery(name = "cinema.loadListByMovieId",
+                query = "SELECT C FROM Cinema C WHERE C.id IN " +
+                            "(SELECT S.cinema.id FROM Showing S WHERE S.movie.id = (:itemId))"
+        )
+})
 public class Cinema {
 
     @Id

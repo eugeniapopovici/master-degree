@@ -8,6 +8,13 @@ import java.time.LocalTime;
  */
 @Entity
 @Table(name = "performances")
+@NamedQueries({
+        @NamedQuery(name = "performance.loadListByMovieAndCinemaIds",
+                query = "SELECT C FROM Cinema C WHERE C.id IN " +
+                            "(SELECT S.cinema.id FROM Showing S " +
+                                "WHERE S.movie.id = (:firstId) AND S.cinema.id = (:secondId))"
+        )
+})
 public class Performance {
 
     @Id

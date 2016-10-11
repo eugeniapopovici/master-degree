@@ -6,19 +6,38 @@ Ext.define('Cinema.view.main.List', {
     xtype: 'mainlist',
 
     requires: [
-        'Cinema.store.Personnel'
+        'Cinema.store.Movies'
     ],
 
-    title: 'Personnel',
+    title: 'Movies',
 
     store: {
-        type: 'personnel'
+        type: 'movies'
     },
 
     columns: [
-        { text: 'Name',  dataIndex: 'name' },
-        { text: 'Email', dataIndex: 'email', flex: 1 },
-        { text: 'Phone', dataIndex: 'phone', flex: 1 }
+        {
+            xtype: 'hidden',
+            dataIndex: 'id'
+        }, {
+            text: 'Description',
+            xtype:'templatecolumn',
+            sortable: false,
+            flex: 1,
+            align: 'left',
+            tpl: new Ext.XTemplate( '<b>{name}</b><br>' +
+            '<b>Description: </b>{description}<br>' +
+                '<b>Release Date: </b>{releaseDate.dayOfMonth}.{releaseDate.monthValue}.{releaseDate.year}<br>' +
+            '<b>Duration: </b>{duration}<br>' +
+            '<b>Genre: </b>{genre}<br>' +
+            '<b>Director: </b>{stageDirector}<br>' +
+            '<b>{text:this.getThreeD}</b>',
+            {
+                getThreeD: function(value){
+                    return value ? '3D' : "2D";
+                }
+            })
+        }
     ],
 
     listeners: {

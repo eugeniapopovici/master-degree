@@ -48,7 +48,7 @@ CREATE TABLE movies (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  movieRating INTEGER,
+  rating INTEGER,
   name CHAR(100),
   description CHAR(500),
   genre CHAR(20),
