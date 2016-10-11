@@ -1,17 +1,13 @@
 package md.usarb.cinema.repository;
 
-import md.usarb.cinema.model.Movie;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.io.Serializable;
 import java.util.List;
 
-public class SearchDao<T> implements ISearchDao<T> {
+public class SearchDao<T, PK extends Serializable> extends  GenericDao<T, PK> implements ISearchDao<T, PK> {
 
-    @PersistenceContext(name = "PGSQLPU")
-    protected static EntityManager entityManager;
 
     public T searchForFilms(T t) {
 //        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -21,22 +17,11 @@ public class SearchDao<T> implements ISearchDao<T> {
 
         return null;
     }
-
-    public static List<Movie> getMovies(){
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-        cq.from(Movie.class);
-        return entityManager.createQuery(cq).getResultList();
-    }
-
-    public static void main(String[] args) {
-getMovies();
-
-
-
-
-
-
+    public List<T> getAll(Class<T> clazz) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 }
 

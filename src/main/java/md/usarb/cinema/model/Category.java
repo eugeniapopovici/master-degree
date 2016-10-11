@@ -10,9 +10,8 @@ import javax.persistence.*;
 public class Category {
 
     @Id
-//    @SequenceGenerator(name = "categoriesSeq", sequenceName = "categories_id_seq", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoriesSeq")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoriesSeq")
+    @SequenceGenerator(name = "categoriesSeq", sequenceName = "categories_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 

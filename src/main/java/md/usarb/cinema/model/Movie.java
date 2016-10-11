@@ -12,9 +12,8 @@ import java.time.LocalDate;
 public class Movie {
 
     @Id
-//    @SequenceGenerator(name = "moviesSeq", sequenceName = "movies_id_seq", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moviesSeq")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moviesSeq")
+    @SequenceGenerator(name = "moviesSeq", sequenceName = "movies_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -33,11 +32,17 @@ public class Movie {
     @Column(name = "duration")
     private Integer duration;
 
+    @Column(name = "rating")
+    private Integer rating;
+
     @Column(name = "three_D")
     private Boolean threeD;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    @Column(name = "movie_age")
+    private Integer movieAge;
 
     public Long getId() {
         return id;
@@ -87,6 +92,14 @@ public class Movie {
         this.duration = duration;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
     public Boolean getThreeD() {
         return threeD;
     }
@@ -101,5 +114,13 @@ public class Movie {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Integer getMovieAge() {
+        return movieAge;
+    }
+
+    public void setMovieAge(Integer movieAge) {
+        this.movieAge = movieAge;
     }
 }

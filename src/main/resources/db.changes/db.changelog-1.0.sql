@@ -48,7 +48,7 @@ CREATE TABLE movies (
   id SERIAL
     NOT NULL
     PRIMARY KEY,
-  rating INTEGER,
+  movieRating INTEGER,
   name CHAR(100),
   description CHAR(500),
   genre CHAR(20),
@@ -177,3 +177,45 @@ INSERT INTO bookings(customer_id, showing_id, category_id, booking_for_date, boo
 (1, 2, 1, '2016-02-01', '2016-01-01'),
 (2, 1, 3, '2016-01-11', '2016-01-01'),
 (1, 2, 1, '2016-01-08', '2016-01-01');
+
+--changeset nbalan:4
+ALTER TABLE showings ADD COLUMN show_from_date DATE;
+ALTER TABLE showings ADD COLUMN show_to_date DATE;
+
+ALTER TABLE movies ADD COLUMN movie_age INTEGER;
+
+--changeset nbalan:5
+UPDATE movies SET movieRating=9 WHERE id=1;
+UPDATE movies SET movieRating=10 WHERE id=2;
+
+UPDATE showings SET show_from_date='2016-09-06' , show_to_date='2016-10-28' WHERE id=1;
+UPDATE showings SET show_from_date='2016-10-06' , show_to_date='2016-10-25' WHERE id=2;
+UPDATE showings SET show_from_date='2016-10-28' , show_to_date='2016-11-28' WHERE id=3;
+UPDATE showings SET show_from_date='2016-09-06' , show_to_date='2016-10-28' WHERE id=4;
+
+--changeset nbalan:6
+UPDATE movies SET movie_age=9 WHERE id=1;
+UPDATE movies SET movie_age=13 WHERE id=2;
+
+--changeset nbalan:7
+ALTER TABLE addresses
+    ALTER COLUMN country TYPE VARCHAR(50),
+    ALTER COLUMN city TYPE VARCHAR (50),
+    ALTER COLUMN address_line TYPE VARCHAR (50);
+
+ALTER TABLE cinemas
+    ALTER COLUMN cinema_name TYPE VARCHAR(50),
+    ALTER COLUMN cinema_phone TYPE VARCHAR(20);
+
+ALTER TABLE categories
+    ALTER COLUMN category_name TYPE VARCHAR(10);
+
+ALTER TABLE movies
+    ALTER COLUMN name TYPE VARCHAR(100),
+    ALTER COLUMN description TYPE VARCHAR(500),
+    ALTER COLUMN genre TYPE VARCHAR(20),
+    ALTER COLUMN stage_director TYPE VARCHAR(50);
+
+ALTER TABLE customers
+    ALTER COLUMN customer_name TYPE VARCHAR(50),
+    ALTER COLUMN customer_phone TYPE VARCHAR(20);

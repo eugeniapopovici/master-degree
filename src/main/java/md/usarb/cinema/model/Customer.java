@@ -10,9 +10,8 @@ import javax.persistence.*;
 public class Customer {
 
     @Id
-//    @SequenceGenerator(name = "customersSeq", sequenceName = "customers_id_seq", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customersSeq")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customersSeq")
+    @SequenceGenerator(name = "customersSeq", sequenceName = "customers_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 

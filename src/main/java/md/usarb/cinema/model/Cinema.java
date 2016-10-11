@@ -1,6 +1,7 @@
 package md.usarb.cinema.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Natalia Balan
@@ -11,9 +12,8 @@ import javax.persistence.*;
 public class Cinema {
 
     @Id
-//    @SequenceGenerator(name = "cinemasSeq", sequenceName = "cinemas_id_seq", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cinemassSeq")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cinemasSeq")
+    @SequenceGenerator(name = "cinemasSeq", sequenceName = "cinemas_id_seq", allocationSize = 1)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -26,6 +26,9 @@ public class Cinema {
 
     @Column(name = "cinema_phone")
     private String cinemaPhone;
+
+    @OneToMany(mappedBy = "cinema")
+    private List<Showing> showings;
 
     public Long getId() {
         return id;
@@ -59,4 +62,11 @@ public class Cinema {
         this.cinemaPhone = cinemaPhone;
     }
 
+    public List<Showing> getShowings() {
+        return showings;
+    }
+
+    public void setShowings(List<Showing> showings) {
+        this.showings = showings;
+    }
 }
