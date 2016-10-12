@@ -15,15 +15,20 @@ Ext.define('Cinema.view.form.FilterForm', {
 
     items: [{
         items: [
-            {fieldLabel: 'Film'}
+            {
+                fieldLabel: 'Movie',
+                name: 'movie'
+            }
         ]
     }, {
         items: [
-            {fieldLabel: 'Cinema'}
+            {fieldLabel: 'Cinema',
+            name: 'cinema'}
         ]
     }, {
         items: [
-            {fieldLabel: 'Showing'}
+            {fieldLabel: 'Showing',
+            name: 'showing'}
         ]
     }],
 
@@ -37,9 +42,11 @@ Ext.define('Cinema.view.form.FilterForm', {
                         url: 'cinema/movies/filter',
                         params: Ext.Object.toQueryString(formPanel.getValues()),
                         success: function (conn, response, options, eOpts) {
+                            console.log(this);
                             var result = Ext.decode(conn.responseText);
+                            console.log(result);
+                            Ext.getCmp('mainStore').getStore().loadData(result.data, false);
                             if (result.success) {
-                                Ext.Msg.alert('Success!', 'Stock was saved.');
                             } else {
                                 // TODO
                             }

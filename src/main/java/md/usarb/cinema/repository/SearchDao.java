@@ -6,7 +6,7 @@ import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
-public class SearchDao<T, PK extends Serializable> extends  GenericDao<T, PK> implements ISearchDao<T, PK> {
+public class SearchDao<T> extends  GenericDao<T> {
 
 
     public T searchForFilms(T t) {

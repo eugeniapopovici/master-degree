@@ -12,7 +12,7 @@ import java.time.LocalTime;
         @NamedQuery(name = "performance.loadListByMovieAndCinemaIds",
                 query = "SELECT C FROM Cinema C WHERE C.id IN " +
                             "(SELECT S.cinema.id FROM Showing S " +
-                                "WHERE S.movie.id = (:firstId) AND S.cinema.id = (:secondId))"
+                                "WHERE S.movie.id = (:movieId) AND S.cinema.id = (:cinemaId))"
         )
 })
 public class Performance {

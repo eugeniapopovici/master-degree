@@ -11,6 +11,10 @@ Ext.define('Cinema.view.main.List', {
 
     title: 'Movies',
 
+    ref: 'moviesGrid',
+
+    id: 'mainCinema',
+
     store: {
         type: 'movies'
     },

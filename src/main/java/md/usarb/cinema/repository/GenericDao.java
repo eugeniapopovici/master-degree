@@ -1,14 +1,20 @@
 package md.usarb.cinema.repository;
 
+import md.usarb.cinema.model.Movie;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-public class GenericDao<T, PK extends Serializable> implements IGenericDao<T, PK> {
+public class GenericDao<T> {
 
     public EntityManager entityManager = Persistence.createEntityManagerFactory("PGSQLPU").createEntityManager();
 
@@ -17,8 +23,8 @@ public class GenericDao<T, PK extends Serializable> implements IGenericDao<T, PK
         return t;
     }
 
-    public T read(PK id) {
-        return this.entityManager.find(null, id);
+    public T read(Class<T> tClass, Long id) {
+        return this.entityManager.find(tClass, id);
     }
 
     public T update(T t) {
@@ -46,29 +52,31 @@ public class GenericDao<T, PK extends Serializable> implements IGenericDao<T, PK
     /**
      * Load {@link List} of items by item id
      *
-     * @param id
+     * @param itemId
      * @param queryName- is query for execute
      * @return {@link List} of the items
      */
-    List<T> loadItemsById(long id, String queryName) {
+    List<T> loadItemsById(Long itemId, String queryName) {
         Query q = entityManager.createNamedQuery(queryName);
-        q.setParameter("itemId", id);
+        q.setParameter("itemId", itemId);
         return q.getResultList();
     }
 
-    /**
-     * Load {@link List} of items by item id
-     *
-     * @param firstId
-     * @param secondId
-     * @param queryName- is query for execute
-     * @return {@link List} of the items
-     */
-    List<T> loadItemsByTwoIds(long firstId, long secondId, String queryName) {
-        Query q = entityManager.createNamedQuery(queryName);
-        q.setParameter("firstId", firstId);
-        q.setParameter("secondId", secondId);
-        return q.getResultList();
-    }
+
+//                      WTF?
+//    /**
+//     * Load {@link List} of items by item id
+//     *
+//     * @param firstId
+//     * @param secondId
+//     * @param queryName- is query for execute
+//     * @return {@link List} of the items
+//     */
+//    List<T> loadItemsByTwoIds(Long firstId, Long secondId, String queryName) {
+//        Query q = entityManager.createNamedQuery(queryName);
+//        q.setParameter("firstId", firstId);
+//        q.setParameter("secondId", secondId);
+//        return q.getResultList();
+//    }
 
 }

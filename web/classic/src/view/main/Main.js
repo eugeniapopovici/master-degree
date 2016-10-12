@@ -82,8 +82,10 @@ Ext.define('Cinema.view.main.Main', {
         iconCls: 'fa-home',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
+                id: 'filterForm',
                 xtype: 'filter-form'
         },{
+            id: 'mainStore',
             xtype: 'mainlist'
         }]
     }]
