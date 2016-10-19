@@ -185,8 +185,8 @@ ALTER TABLE showings ADD COLUMN show_to_date DATE;
 ALTER TABLE movies ADD COLUMN movie_age INTEGER;
 
 --changeset nbalan:5
-UPDATE movies SET movieRating=9 WHERE id=1;
-UPDATE movies SET movieRating=10 WHERE id=2;
+UPDATE movies SET rating=9 WHERE id=1;
+UPDATE movies SET rating=10 WHERE id=2;
 
 UPDATE showings SET show_from_date='2016-09-06' , show_to_date='2016-10-28' WHERE id=1;
 UPDATE showings SET show_from_date='2016-10-06' , show_to_date='2016-10-25' WHERE id=2;
