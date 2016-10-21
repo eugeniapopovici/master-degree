@@ -6,11 +6,11 @@ import md.usarb.cinema.repository.BookingDao;
 import md.usarb.cinema.repository.CinemaDao;
 import md.usarb.cinema.repository.MovieDao;
 import md.usarb.cinema.repository.PerformanceDao;
+import md.usarb.cinema.utils.CustomJsonDeserializer;
 import md.usarb.cinema.utils.ExcludeTransformer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -50,19 +50,26 @@ public class CinemaServiceImpl {
     @Path("/home/showings")
     @Produces( { MediaType.APPLICATION_JSON + ";charset=utf-8"})
     public String getMovies() {
-        SearchFilter searchFilter = new SearchFilter();
-//        searchFilter.setMovieName("Hotii de geniu");
-//        searchFilter.setCinemaName("Multiplex");
-//        searchFilter.setMovieAge(13);
-        searchFilter.setMovieRating(9);
-//        searchFilter.setPerformanceStartTime(LocalTime.of(13, 8, 42));
-//        searchFilter.setPerformanceEndTime(LocalTime.of(16, 8, 42));
-//        searchFilter.setThreeD(false);
-//        searchFilter.setShowingFromDate(LocalDate.of(2016, 10, 6));
-//        searchFilter.setShowingToDate(LocalDate.of(2016, 10, 25));
-//        searchFilter.setMovieGenre("Comedy");
+//        SearchFilter searchFilter = new SearchFilter();
+        String json = "{'movieName':'Hotii de geniu'," +
+                "'cinemaId':'1'," +
+                "'movieGenre':'Comedy'," +
+                "'movieAge':'13'," +
+                "'movieRating':'10'," +
+                "'performanceId':'2'," +
+                "'threeD': 'false', " +
+                "'showingFromDate':'10/06/2016', "+
+                "'showingToDate':'10/25/2016'" +
+                "}";
+        SearchFilter searchFilter;
+        if(json == null){
+             searchFilter = new SearchFilter();
+        }else{
+             searchFilter = CustomJsonDeserializer.jsonDeserializer(json);
+        }
         List movies = movieDao.getFilteredMovies(searchFilter);
-        return new JSONSerializer().transform(new ExcludeTransformer(), void.class).exclude("*.class").rootName("data").serialize(movies);
+        return new JSONSerializer().transform(new ExcludeTransformer(), void.class).exclude("*.class" ,"calendarType", "chronology", "dayOfWeek",
+                "dayOfYear", "era", "leapYear", "prolepticMonth").rootName("data").serialize(movies);
     }
 
 

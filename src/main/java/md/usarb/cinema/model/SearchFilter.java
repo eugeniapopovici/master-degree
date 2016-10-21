@@ -1,13 +1,15 @@
 package md.usarb.cinema.model;
 
+import md.usarb.cinema.utils.LocalDateTransformer;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -17,23 +19,22 @@ import static java.util.Objects.isNull;
  */
 public class SearchFilter {
 
-    private String cinemaName;
+    private Long cinemaId;
     private String movieName;
-    private LocalTime performanceStartTime;
-    private LocalTime performanceEndTime;
+    private Long performanceId;
     private Integer movieRating;
     private Boolean threeD;
     private Integer movieAge;
-    private LocalDate showingFromDate;
-    private LocalDate showingToDate;
+    private Date showingFromDate;
+    private Date showingToDate;
     private String movieGenre;
 
-    public String getCinemaName() {
-        return cinemaName;
+    public Long getCinemaId() {
+        return cinemaId;
     }
 
-    public void setCinemaName(String cinemaName) {
-        this.cinemaName = cinemaName;
+    public void setCinemaId(Long cinemaId) {
+        this.cinemaId = cinemaId;
     }
 
     public String getMovieName() {
@@ -44,20 +45,12 @@ public class SearchFilter {
         this.movieName = movieName;
     }
 
-    public LocalTime getPerformanceStartTime() {
-        return performanceStartTime;
+    public Long getPerformanceId() {
+        return performanceId;
     }
 
-    public void setPerformanceStartTime(LocalTime performanceStartTime) {
-        this.performanceStartTime = performanceStartTime;
-    }
-
-    public LocalTime getPerformanceEndTime() {
-        return performanceEndTime;
-    }
-
-    public void setPerformanceEndTime(LocalTime performanceEndTime) {
-        this.performanceEndTime = performanceEndTime;
+    public void setPerformanceId(Long performanceId) {
+        this.performanceId = performanceId;
     }
 
     public Integer getMovieRating() {
@@ -84,19 +77,19 @@ public class SearchFilter {
         this.movieAge = movieAge;
     }
 
-    public LocalDate getShowingFromDate() {
+    public Date getShowingFromDate() {
         return showingFromDate;
     }
 
-    public void setShowingFromDate(LocalDate showingFromDate) {
+    public void setShowingFromDate(Date showingFromDate) {
         this.showingFromDate = showingFromDate;
     }
 
-    public LocalDate getShowingToDate() {
+    public Date getShowingToDate() {
         return showingToDate;
     }
 
-    public void setShowingToDate(LocalDate showingToDate) {
+    public void setShowingToDate(Date showingToDate) {
         this.showingToDate = showingToDate;
     }
 
@@ -129,22 +122,21 @@ public class SearchFilter {
         if (!isNull(movieGenre)) {
             predicates.add(criteriaBuilder.equal(showing.get("movie").get("genre"), movieGenre));
         }
-        if (!isNull(this.cinemaName)) {
-            predicates.add(criteriaBuilder.like(showing.get("cinema").get("cinemaName"), cinemaName));
+        if (!isNull(this.cinemaId)) {
+            predicates.add(criteriaBuilder.equal(showing.get("cinema").get("id"), cinemaId));
         }
         if (!isNull(showingFromDate) && !isNull(showingToDate)) {
-            predicates.add(criteriaBuilder.between(showing.get("showFromDate"), showingFromDate, showingToDate));
+            predicates.add(criteriaBuilder.between(showing.get("showFromDate"),
+                    LocalDateTransformer.getLocalDate(showingFromDate),  LocalDateTransformer.getLocalDate(showingToDate)));
         } else if (!isNull(showingFromDate)) {
-            predicates.add(criteriaBuilder.between(showing.get("showFromDate"), showingFromDate, LocalDate.now()));
+            predicates.add(criteriaBuilder.between(showing.get("showFromDate"),
+                    LocalDateTransformer.getLocalDate(showingFromDate), LocalDate.now()));
         } else if (!isNull(showingToDate)) {
-            predicates.add(criteriaBuilder.between(showing.get("showFromDate"), LocalDate.now(), showingToDate));
+            predicates.add(criteriaBuilder.between(showing.get("showFromDate"), LocalDate.now(),
+                    LocalDateTransformer.getLocalDate(showingToDate)));
         }
-        if (!isNull(performanceStartTime) && !isNull(performanceEndTime)) {
-            predicates.add(criteriaBuilder.between(showing.get("performance").get("performanceStartTime"), performanceStartTime, performanceEndTime));
-        } else if (!isNull(performanceStartTime)) {
-            predicates.add(criteriaBuilder.between(showing.get("performance").get("performanceStartTime"), performanceStartTime, LocalTime.now()));
-        } else if (!isNull(performanceEndTime)) {
-            predicates.add(criteriaBuilder.between(showing.get("performance").get("performanceStartTime"), LocalTime.now(), performanceEndTime));
+        if (!isNull(performanceId)) {
+            predicates.add(criteriaBuilder.equal(showing.get("performance").get("id"), performanceId));
         }
         if (!predicates.isEmpty()) {
             Predicate[] pr = new Predicate[predicates.size()];
