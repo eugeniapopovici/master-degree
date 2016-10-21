@@ -37,8 +37,9 @@ Ext.define('Cinema.view.main.List', {
             '<b>Director: </b>{stageDirector}<br>' +
             '<b>{text:this.getThreeD}</b>',
             {
-                getThreeD: function(value){
-                    return value ? '3D' : "2D";
+                getThreeD: function(){
+                    console.log('{value}');
+                    return '{value}' ? "3D" : "2D";
                 }
             })
         }

@@ -14,6 +14,18 @@ var ageRatings = Ext.create('Ext.data.Store', {
     ]
 });
 
+var cinemas = Ext.create('Ext.data.Store', {
+    autoLoad: true,
+    proxy: {
+        type: 'rest',
+        url: 'cinema/cinemas/all',
+        reader: {
+            type: 'json',
+            rootProperty: 'data'
+        }
+    }
+});
+
 var movieRatings = Ext.create('Ext.data.Store', {
     fields: ['rating'],
     data : [
@@ -31,24 +43,11 @@ var movieRatings = Ext.create('Ext.data.Store', {
 });
 
 var performanceHours = Ext.create('Ext.data.Store', {
-    fields: ['perf'],
+    fields: ['id', 'time'],
     data : [
-        {"perf":"8:00"},    {"perf":"8:15"},    {"perf":"8:30"},    {"perf":"8:45"},
-        {"perf":"9:00"},    {"perf":"9:15"},    {"perf":"9:30"},    {"perf":"9:45"},
-        {"perf":"10:00"},   {"perf":"10:15"},   {"perf":"10:30"},   {"perf":"10:45"},
-        {"perf":"11:00"},   {"perf":"11:15"},   {"perf":"11:30"},   {"perf":"11:45"},
-        {"perf":"12:00"},   {"perf":"12:15"},   {"perf":"12:30"},   {"perf":"12:45"},
-        {"perf":"13:00"},   {"perf":"13:15"},   {"perf":"13:30"},   {"perf":"13:45"},
-        {"perf":"14:00"},   {"perf":"14:15"},   {"perf":"14:30"},   {"perf":"14:45"},
-        {"perf":"15:00"},   {"perf":"15:15"},   {"perf":"15:30"},   {"perf":"15:45"},
-        {"perf":"16:00"},   {"perf":"16:15"},   {"perf":"16:30"},   {"perf":"16:45"},
-        {"perf":"17:00"},   {"perf":"17:15"},   {"perf":"17:30"},   {"perf":"17:45"},
-        {"perf":"18:00"},   {"perf":"18:15"},   {"perf":"18:30"},   {"perf":"18:45"},
-        {"perf":"19:00"},   {"perf":"19:15"},   {"perf":"19:30"},   {"perf":"19:45"},
-        {"perf":"20:00"},   {"perf":"20:15"},   {"perf":"20:30"},   {"perf":"20:45"},
-        {"perf":"21:00"},   {"perf":"21:15"},   {"perf":"21:30"},   {"perf":"21:45"},
-        {"perf":"22:00"},   {"perf":"22:15"},   {"perf":"22:30"},   {"perf":"22:45"},
-        {"perf":"23:00"},   {"perf":"23:15"},   {"perf":"23:30"},   {"perf":"23:45"},
+        {"id":"1", "time":"9:00 - 12:00"},
+        {"id":"2", "time":"13:00 - 16:00"},
+        {"id":"3", "time":"17:00 - 21:00"}
     ]
 });
 
@@ -71,10 +70,17 @@ Ext.define('Cinema.view.form.FilterForm', {
         items: [
             {
                 fieldLabel: 'Movie',
-                name: 'movieTitle'
+                name: 'movieName'
             },{
+                xtype: 'combobox',
                 fieldLabel: 'Cinema',
-                name: 'cinemaTitle'
+                name: 'cinemaId',
+                store: cinemas,
+                displayField: 'cinemaName',
+                valueField: 'id'
+            },{
+                fieldLabel: 'Genre',
+                name: 'movieGenre'
             }
         ]
     }, {
@@ -82,7 +88,7 @@ Ext.define('Cinema.view.form.FilterForm', {
             {
                 xtype: 'combobox',
                 fieldLabel: 'Age rating',
-                name: 'ageRating',
+                name: 'movieAge',
                 store: ageRatings,
                 displayField: 'age',
                 valueField: 'age'
@@ -93,24 +99,13 @@ Ext.define('Cinema.view.form.FilterForm', {
                 store: movieRatings,
                 displayField: 'rating',
                 valueField: 'rating'
-            }
-        ]
-    }, {
-        items: [
-            {
+            },{
                 fieldLabel: 'Performance start time',
                 xtype: 'combobox',
-                name: 'performanceStartTime',
+                name: 'performanceId',
                 store: performanceHours,
-                displayField: 'perf',
-                valueField: 'perf'
-            },{
-                fieldLabel: 'Performance end time',
-                xtype: 'combobox',
-                name: 'performanceEndTime',
-                store: performanceHours,
-                displayField: 'perf',
-                valueField: 'perf'
+                displayField: 'time',
+                valueField: 'id'
             }
         ]
     }, {
@@ -123,6 +118,16 @@ Ext.define('Cinema.view.form.FilterForm', {
                     {boxLabel: '2D', name: 'threeD', inputValue: 'false', checked: true},
                     {boxLabel: '3D', name: 'threeD', inputValue: 'true'}
                 ]
+            }, {
+                fieldLabel: 'Showing start date',
+                xtype: 'datefield',
+                name: 'showingFromDate',
+                minValue: new Date()
+            }, {
+                fieldLabel: 'Showing end date',
+                xtype: 'datefield',
+                name: 'showingToDate',
+                minValue: new Date()
             }
         ]
     }],
@@ -132,12 +137,13 @@ Ext.define('Cinema.view.form.FilterForm', {
             text: 'Apply',
             handler: function () {
                 var formPanel = this.up('filter-form');
+                console.log(formPanel);
                 if (formPanel.getForm().isValid()) {
                     Ext.Ajax.request({
                         url: 'cinema/movies/filter',
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
-                        params: Ext.JSON.encode(formPanel.getValues()),
+                        params: Ext.JSON.encode(formPanel.getValues(false, true)),
                         // params: Ext.Object.toQueryString(formPanel.getValues()),
                         success: function (conn, response, options, eOpts) {
                             console.log(this);

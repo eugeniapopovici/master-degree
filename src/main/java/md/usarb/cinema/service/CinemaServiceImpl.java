@@ -1,5 +1,6 @@
 package md.usarb.cinema.service;
 
+import com.sun.deploy.net.HttpRequest;
 import flexjson.JSONSerializer;
 import md.usarb.cinema.model.*;
 import md.usarb.cinema.repository.BookingDao;
@@ -10,11 +11,9 @@ import md.usarb.cinema.utils.CustomJsonDeserializer;
 import md.usarb.cinema.utils.ExcludeTransformer;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Path("")
 public class CinemaServiceImpl {
@@ -33,41 +32,44 @@ public class CinemaServiceImpl {
                 "dayOfYear", "era", "leapYear", "prolepticMonth").serialize(movies);
     }
 
-    @POST
-    @Path("/movies/filter")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @GET
+    @Path("/cinemas/all")
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
-    public String applyMovieFilter(@FormParam("movie") Long param) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", "true");
-        Movie movie = movieDao.read(Movie.class, param);
-        response.put("data", movie != null ? Collections.singleton(movie) : Collections.emptyList());
-        return new JSONSerializer().exclude("*.class", "calendarType", "chronology", "dayOfWeek",
-                "dayOfYear", "era", "leapYear", "prolepticMonth").deepSerialize(response);
+    public String loadAllCinemas(){
+        List<Cinema> movies = cinemaDao.findAll(Cinema.class);
+        return new JSONSerializer().rootName("data").serialize(movies);
     }
 
-    @GET
-    @Path("/home/showings")
+//    @POST
+//    @Path("/movies/filter")
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+//    public String applyMovieFilter(@FormParam("movie") Long param) {
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("success", "true");
+//        Movie movie = movieDao.read(Movie.class, param);
+//        response.put("data", movie != null ? Collections.singleton(movie) : Collections.emptyList());
+//        return new JSONSerializer().exclude("*.class", "calendarType", "chronology", "dayOfWeek",
+//                "dayOfYear", "era", "leapYear", "prolepticMonth").deepSerialize(response);
+//    }
+
+    @POST
+    @Path("/movies/filter")
     @Produces( { MediaType.APPLICATION_JSON + ";charset=utf-8"})
-    public String getMovies() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String getMovies(final String json) {
 //        SearchFilter searchFilter = new SearchFilter();
-        String json = "{'movieName':'Hotii de geniu'," +
-                "'cinemaId':'1'," +
-                "'movieGenre':'Comedy'," +
-                "'movieAge':'13'," +
-                "'movieRating':'10'," +
-                "'performanceId':'2'," +
-                "'threeD': 'false', " +
-                "'showingFromDate':'10/06/2016', "+
-                "'showingToDate':'10/25/2016'" +
-                "}";
         SearchFilter searchFilter;
         if(json == null){
              searchFilter = new SearchFilter();
         }else{
              searchFilter = CustomJsonDeserializer.jsonDeserializer(json);
         }
-        List movies = movieDao.getFilteredMovies(searchFilter);
+        List<Showing> showings = movieDao.getFilteredMovies(searchFilter);
+        List<Movie> movies = new ArrayList<>();
+        for (Showing showing : showings) {
+            movies.add(showing.getMovie());
+        }
         return new JSONSerializer().transform(new ExcludeTransformer(), void.class).exclude("*.class" ,"calendarType", "chronology", "dayOfWeek",
                 "dayOfYear", "era", "leapYear", "prolepticMonth").rootName("data").serialize(movies);
     }
