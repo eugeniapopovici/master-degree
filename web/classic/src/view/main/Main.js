@@ -88,5 +88,16 @@ Ext.define('Cinema.view.main.Main', {
             id: 'mainStore',
             xtype: 'mainlist'
         }]
+    },{
+        title: 'Bookings',
+        iconCls: 'fa-home',
+        // The following grid shares a store with the classic version's grid as well!
+        items: [{
+            id: 'filterForm2',
+            xtype: 'filter-form'
+        },{
+            id: 'mainStore2',
+            xtype: 'mainlist'
+        }]
     }]
 });

@@ -26,3 +26,4 @@ Ext.define('Cinema.Application', {
         );
     }
 });
+Ext.require('widget.spacer');
