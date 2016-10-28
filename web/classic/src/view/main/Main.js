@@ -16,6 +16,7 @@ Ext.define('Cinema.view.main.Main', {
         'Cinema.view.main.MainController',
         'Cinema.view.main.MainModel',
         'Cinema.view.main.List',
+        'Cinema.view.main.Bookings',
 
         'Cinema.view.form.FilterForm'
     ],
@@ -80,7 +81,6 @@ Ext.define('Cinema.view.main.Main', {
     items: [{
         title: 'Movies',
         iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
         items: [{
                 id: 'filterForm',
                 xtype: 'filter-form'
@@ -88,16 +88,14 @@ Ext.define('Cinema.view.main.Main', {
             id: 'mainStore',
             xtype: 'mainlist'
         }]
-    },{
+    }
+        ,{
         title: 'Bookings',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
         items: [{
-            id: 'filterForm2',
-            xtype: 'filter-form'
-        },{
-            id: 'mainStore2',
-            xtype: 'mainlist'
+            id: 'bookingsStore',
+            xtype: 'bookingslist'
         }]
-    }]
+    }
+
+    ]
 });

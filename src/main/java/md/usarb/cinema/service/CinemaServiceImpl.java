@@ -44,8 +44,7 @@ public class CinemaServiceImpl {
     @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
     public String loadAllBookings(){
         List<Booking> bookings = bookingDao.getAllBookings(Booking.class);
-        return new JSONSerializer().exclude("*.class" ,"calendarType", "chronology", "dayOfWeek",
-                "dayOfYear", "era", "leapYear", "prolepticMonth").rootName("data").serialize(bookings);
+        return new JSONSerializer().rootName("data").deepSerialize(bookings);
     }
 
 //    @POST

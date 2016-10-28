@@ -38,7 +38,6 @@ Ext.define('Cinema.view.main.List', {
                 '<b>{[this.getThreeD(values.threeD)]}</b>',
                 {
                     getThreeD: function (threeD) {
-                        console.log(threeD);
                         return threeD ? "3D" : "2D";
                     }
                 })
