@@ -109,18 +109,20 @@ public class SearchFilter {
 
         List<Predicate> predicates = new ArrayList<>();
         if (!isNull(movieName)) {
-            predicates.add(criteriaBuilder.like(showing.get("movie").get("name"), movieName));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(showing.get("movie").get("name")),
+                    "%" + movieName.toUpperCase() + "%"));
         } if (!isNull(movieAge)) {
-            predicates.add(criteriaBuilder.equal(showing.get("movie").get("movieAge"), movieAge));
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(showing.get("movie").get("movieAge"), movieAge));
         }
         if (!isNull(movieRating)) {
-            predicates.add(criteriaBuilder.equal(showing.get("movie").get("rating"), movieRating));
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(showing.get("movie").get("rating"), movieRating));
         }
         if (!isNull(threeD)) {
             predicates.add(criteriaBuilder.equal(showing.get("movie").get("threeD"), threeD));
         }
         if (!isNull(movieGenre)) {
-            predicates.add(criteriaBuilder.equal(showing.get("movie").get("genre"), movieGenre));
+            predicates.add(criteriaBuilder.equal(criteriaBuilder.upper(showing.get("movie").get("genre")),
+                     "%" + movieGenre.toUpperCase() + "%"));
         }
         if (!isNull(this.cinemaId)) {
             predicates.add(criteriaBuilder.equal(showing.get("cinema").get("id"), cinemaId));

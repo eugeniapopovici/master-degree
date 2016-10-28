@@ -1,6 +1,5 @@
 package md.usarb.cinema.service;
 
-import com.sun.deploy.net.HttpRequest;
 import flexjson.JSONSerializer;
 import md.usarb.cinema.model.*;
 import md.usarb.cinema.repository.BookingDao;
@@ -11,9 +10,9 @@ import md.usarb.cinema.utils.CustomJsonDeserializer;
 import md.usarb.cinema.utils.ExcludeTransformer;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("")
 public class CinemaServiceImpl {
@@ -38,6 +37,15 @@ public class CinemaServiceImpl {
     public String loadAllCinemas(){
         List<Cinema> movies = cinemaDao.findAll(Cinema.class);
         return new JSONSerializer().rootName("data").serialize(movies);
+    }
+
+    @GET
+    @Path("/booking/all")
+    @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+    public String loadAllBookings(){
+        List<Booking> bookings = bookingDao.getAllBookings(Booking.class);
+        return new JSONSerializer().exclude("*.class" ,"calendarType", "chronology", "dayOfWeek",
+                "dayOfYear", "era", "leapYear", "prolepticMonth").rootName("data").serialize(bookings);
     }
 
 //    @POST
