@@ -90,7 +90,8 @@ Ext.define('Cinema.view.main.Main', {
         }]
     }
         ,{
-        title: 'Bookings',
+        title: 'Bookings', 
+            iconCls: 'fa-clock-o',
         items: [{
             id: 'bookingsStore',
             xtype: 'bookingslist'
