@@ -59,7 +59,7 @@ Ext.define('Cinema.view.main.Bookings', {
             sortable: false,
             flex: 0.2,
             align: 'left',
-            tpl: new Ext.XTemplate('<b>Booking to date: </b>{bookingForDate.dayOfMonth}.{bookingForDate.monthValue}.{bookingForDate.year}<br>' +
+            tpl: new Ext.XTemplate('<b>Booking to date: </b>{bookingForDate.dayOfMonth}/{bookingForDate.monthValue}/{bookingForDate.year}<br>' +
                 '<b>Category: </b>{category.categoryName}<br>')
         }
     ]
