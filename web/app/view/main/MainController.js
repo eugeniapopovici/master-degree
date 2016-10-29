@@ -33,7 +33,7 @@ Ext.define('Cinema.view.main.MainController', {
             autoLoad: false,
             proxy: {
                 type: 'rest',
-                url: 'cinema/booking/performances/movieId/' + movieId + '/cinemaId/' + cinemaId,
+                url: 'cinema/booking/performances',
                 reader: {
                     type: 'json',
                     rootProperty: 'data'
@@ -99,7 +99,9 @@ Ext.define('Cinema.view.main.MainController', {
                             scope: this,
                             'select': function (record) {
                                 cinemaId: record.displayTplData[0].id;
-                                performanceStore.load();
+                                performanceStore.getProxy().extraParams.movieId = movieId;
+                                performanceStore.getProxy().extraParams.cinemaId = record.displayTplData[0].id;
+                                // performanceStore.load();
                             }
                         }
                     }, {
@@ -123,8 +125,7 @@ Ext.define('Cinema.view.main.MainController', {
                         xtype: 'datefield',
                         fieldLabel: 'For Date',
                         name: 'bookingForDate',
-                        minValue: new Date(),
-                        allowBlank: true,
+                        minValue: new Date()
                     }
                 ],
                 buttons: [{

@@ -100,13 +100,18 @@ public class CinemaServiceImpl {
     }
 
     @GET
-    @Path("/booking/performances/movieId/{movieId}/cinemaId/{cinemaId}")
+    @Path("/booking/performances?_dc={dc}&movieId={movieId}&cinemaId={cinemaId}&page=1&start=0&limit=25")
     @Consumes({MediaType.TEXT_PLAIN})
     @Produces({MediaType.APPLICATION_JSON})
-    public String getPerformancesByMovieAndCinemaIds(@PathParam("movieId") Long movieId, @PathParam("cinemaId") Long cinemaId) {
-        List<Performance> performances = performanceDao.loadPerformancesByMovieAndCinemaIds(movieId, cinemaId);
+    public String getPerformancesByMovieAndCinemaIds(@PathParam("dc") Long dc, @PathParam("movieId") Long movieId, @PathParam("cinemaId") Long cinemaId) {
+//        List<Performance> performances = performanceDao.loadPerformancesByMovieAndCinemaIds(movieId, cinemaId);
 
-        return new JSONSerializer().exclude("*.class").serialize(performances);
+        System.out.println("____________________________________________");
+        System.out.println(movieId);
+        System.out.println("____________________________________________");
+
+        return new JSONSerializer().exclude("*.class").serialize(null);
+//        return new JSONSerializer().exclude("*.class").serialize(performances);
     }
 
     @POST
@@ -131,6 +136,8 @@ public class CinemaServiceImpl {
             }
         }
 
-        return "Success!";
+        response.put("success", success);
+        response.put("message", message);
+        return new JSONSerializer().serialize(response);
     }
 }
