@@ -121,7 +121,7 @@ public class SearchFilter {
             predicates.add(criteriaBuilder.equal(showing.get("movie").get("threeD"), threeD));
         }
         if (!isNull(movieGenre)) {
-            predicates.add(criteriaBuilder.equal(criteriaBuilder.upper(showing.get("movie").get("genre")),
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(showing.get("movie").get("genre")),
                      "%" + movieGenre.toUpperCase() + "%"));
         }
         if (!isNull(this.cinemaId)) {
