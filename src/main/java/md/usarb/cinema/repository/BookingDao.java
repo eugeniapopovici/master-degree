@@ -7,10 +7,10 @@ import java.util.List;
 public class BookingDao<T> extends GenericDao<T> {
 
     public List<T> getAllBookings(Class<T> tClass){
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = entityManagerFactory.createEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(tClass);
         criteriaQuery.from(tClass);
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return entityManagerFactory.createEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
 }

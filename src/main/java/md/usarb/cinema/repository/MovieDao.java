@@ -9,8 +9,8 @@ import java.util.List;
 public class MovieDao<T> extends GenericDao<T> {
 
     public List getFilteredMovies(SearchFilter searchFilter) {
-        CriteriaQuery criteriaQuery = searchFilter.buildCrriteriaQuery(entityManager);
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        CriteriaQuery criteriaQuery = searchFilter.buildCrriteriaQuery(entityManagerFactory.createEntityManager());
+        return entityManagerFactory.createEntityManager().createQuery(criteriaQuery).getResultList();
     }
 
 }

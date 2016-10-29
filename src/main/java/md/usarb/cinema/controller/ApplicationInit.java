@@ -17,9 +17,9 @@ public class ApplicationInit extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
+        GenericDao.entityManagerFactory = Persistence.createEntityManagerFactory("PGSQLPU");
         Set<Class<?>> classes = new HashSet<>();
         classes.add(CinemaServiceImpl.class);
-        GenericDao.entityManager = Persistence.createEntityManagerFactory("PGSQLPU").createEntityManager();
         return classes;
     }
 }
