@@ -9,6 +9,7 @@ import md.usarb.cinema.utils.ExcludeTransformer;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Path("")

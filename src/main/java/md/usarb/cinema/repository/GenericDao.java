@@ -1,19 +1,9 @@
 package md.usarb.cinema.repository;
 
-import md.usarb.cinema.model.Movie;
-
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class GenericDao<T> {
 
@@ -38,7 +28,7 @@ public class GenericDao<T> {
     }
 
     public T find(Class<T> clazz, Object o) {
-        return entityManager.find(clazz, o);
+        return entityManagerFactory.createEntityManager().find(clazz, o);
     }
 
     /**

@@ -18,7 +18,7 @@ public class ShowingDao<T> extends GenericDao<T> {
      * @return {@link List} of the {@link Showing} items
      */
     public List<Showing> loadShowingsByCinemaAndMovieIds(long cinemaId, long movieId) {
-        Query q = entityManager.createNamedQuery("showing.findShowingsByCinemaAndMovieIds");
+        Query q = entityManagerFactory.createEntityManager().createNamedQuery("showing.findShowingsByCinemaAndMovieIds");
         q.setParameter("cinemaId", cinemaId);
         q.setParameter("movieId", movieId);
 
