@@ -3,6 +3,7 @@ package md.usarb.cinema.repository;
 import md.usarb.cinema.model.Movie;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,26 +17,24 @@ import java.util.Optional;
 
 public class GenericDao<T> {
 
-    public static EntityManager entityManager;
+    public static EntityManagerFactory entityManagerFactory;
 
     public T create(T t) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(t);
-        entityManager.getTransaction().commit();
+        entityManagerFactory.createEntityManager().persist(t);
         return t;
     }
 
     public T read(Class<T> tClass, Long id) {
-        return entityManager.find(tClass, id);
+        return entityManagerFactory.createEntityManager().find(tClass, id);
     }
 
     public T update(T t) {
-        return entityManager.merge(t);
+        return entityManagerFactory.createEntityManager().merge(t);
     }
 
     public void delete(T t) {
-        t = entityManager.merge(t);
-        entityManager.remove(t);
+        t = entityManagerFactory.createEntityManager().merge(t);
+        entityManagerFactory.createEntityManager().remove(t);
     }
 
     public T find(Class<T> clazz, Object o) {
@@ -49,9 +48,9 @@ public class GenericDao<T> {
      * @return
      */
     public List<T> findAll(Class<T> clazz) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaBuilder cb = entityManagerFactory.createEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(clazz);
         cq.from(clazz);
-        return entityManager.createQuery(cq).getResultList();
+        return entityManagerFactory.createEntityManager().createQuery(cq).getResultList();
     }
 }

@@ -18,10 +18,10 @@ public class SearchDao<T> extends  GenericDao<T> {
         return null;
     }
     public List<T> getAll(Class<T> clazz) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder criteriaBuilder = entityManagerFactory.createEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
         Root<T> root = criteriaQuery.from(clazz);
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return entityManagerFactory.createEntityManager().createQuery(criteriaQuery).getResultList();
     }
 }
 
