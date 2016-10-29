@@ -16,26 +16,26 @@ import java.util.Optional;
 
 public class GenericDao<T> {
 
-    public EntityManager entityManager = Persistence.createEntityManagerFactory("PGSQLPU").createEntityManager();
+    public static EntityManager entityManager;
 
     public T create(T t) {
-        this.entityManager.getTransaction().begin();
-        this.entityManager.persist(t);
-        this.entityManager.getTransaction().commit();
+        entityManager.getTransaction().begin();
+        entityManager.persist(t);
+        entityManager.getTransaction().commit();
         return t;
     }
 
     public T read(Class<T> tClass, Long id) {
-        return this.entityManager.find(tClass, id);
+        return entityManager.find(tClass, id);
     }
 
     public T update(T t) {
-        return this.entityManager.merge(t);
+        return entityManager.merge(t);
     }
 
     public void delete(T t) {
-        t = this.entityManager.merge(t);
-        this.entityManager.remove(t);
+        t = entityManager.merge(t);
+        entityManager.remove(t);
     }
 
     public T find(Class<T> clazz, Object o) {
