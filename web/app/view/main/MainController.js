@@ -150,14 +150,26 @@ Ext.define('Cinema.view.main.MainController', {
                                         var response = Ext.decode(result.responseText);
                                         box.hide();
                                         if (response.success) {
-                                            Ext.Msg.alert("Success", response.message);
+                                            Ext.Msg.alert("Success", response.message, function () {
+                                                formPanel.up('booking-window').close();
+                                                Ext.getCmp('mainStore').getStore().reload();
+                                                Ext.getCmp('bookingsStore').getStore().reload();
+                                            });
                                         } else {
-                                            Ext.Msg.alert("Failure", response.message);
+                                            Ext.Msg.alert("Failure", response.message, function () {
+                                                formPanel.up('booking-window').close();
+                                                Ext.getCmp('mainStore').getStore().reload();
+                                                Ext.getCmp('bookingsStore').getStore().reload();
+                                            });
                                         }
                                     },
                                     failure: function () {
                                         box.hide();
-                                        Ext.Msg.alert("Failure", "Error on booking!");
+                                        Ext.Msg.alert("Failure", "Error on booking!", function () {
+                                            formPanel.up('booking-window').close();
+                                            Ext.getCmp('mainStore').getStore().reload();
+                                            Ext.getCmp('bookingsStore').getStore().reload();
+                                        });
                                     }
                                 });
                             }

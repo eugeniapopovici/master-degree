@@ -105,11 +105,6 @@ public class CinemaServiceImpl {
     @Produces({MediaType.APPLICATION_JSON})
     public String getPerformancesByMovieAndCinemaIds(@PathParam("dc") Long dc, @PathParam("movieId") Long movieId, @PathParam("cinemaId") Long cinemaId) {
 //        List<Performance> performances = performanceDao.loadPerformancesByMovieAndCinemaIds(movieId, cinemaId);
-
-        System.out.println("____________________________________________");
-        System.out.println(movieId);
-        System.out.println("____________________________________________");
-
         return new JSONSerializer().exclude("*.class").serialize(null);
 //        return new JSONSerializer().exclude("*.class").serialize(performances);
     }
