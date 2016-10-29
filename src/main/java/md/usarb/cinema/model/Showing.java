@@ -8,6 +8,10 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "showings")
+@NamedQueries({
+        @NamedQuery(name = "showing.findShowingsByCinemaAndMovieIds", query = "" +
+                "SELECT S FROM Showing S WHERE S.cinema.id = :cinemaId AND S.movie.id = :movieId")
+})
 public class Showing {
 
     @Id

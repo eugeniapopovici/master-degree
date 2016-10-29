@@ -31,7 +31,7 @@ public class Booking {
     @Column(name = "booking_for_date")
     private LocalDate bookingForDate;
 
-    @Column(name = "booking_made_date")
+    @Column(name = "booking_made_date", insertable = false, updatable = false)
     private LocalDate bookingMadeDate;
 
     public Long getId() {
@@ -80,5 +80,21 @@ public class Booking {
 
     public void setBookingMadeDate(LocalDate bookingMadeDate) {
         this.bookingMadeDate = bookingMadeDate;
+    }
+
+    public boolean isEmpty() {
+        if(showing != null) {
+            return false;
+        }
+
+        if(category != null) {
+            return false;
+        }
+
+        if(bookingForDate != null) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -6,5 +6,4 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class BookingDao<T> extends GenericDao<T> {
-
 }

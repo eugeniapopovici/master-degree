@@ -16,7 +16,9 @@ public class CinemaDao<T> extends GenericDao<T> {
      * @return {@link List} of the {@link Cinema} items
      */
     public List<T> loadCinemasByMovieId(Long movieId) {
-        return super.loadItemsById(movieId, "cinema.loadListByMovieId");
+        Query q = entityManager.createNamedQuery("cinema.loadListByMovieId");
+        q.setParameter("itemId", movieId);
+        return q.getResultList();
     }
 
 }

@@ -19,7 +19,9 @@ public class GenericDao<T> {
     public EntityManager entityManager = Persistence.createEntityManagerFactory("PGSQLPU").createEntityManager();
 
     public T create(T t) {
+        this.entityManager.getTransaction().begin();
         this.entityManager.persist(t);
+        this.entityManager.getTransaction().commit();
         return t;
     }
 
@@ -36,6 +38,10 @@ public class GenericDao<T> {
         this.entityManager.remove(t);
     }
 
+    public T find(Class<T> clazz, Object o) {
+        return entityManager.find(clazz, o);
+    }
+
     /**
      * Finds all objects of an entity class.
      *
@@ -48,35 +54,4 @@ public class GenericDao<T> {
         cq.from(clazz);
         return entityManager.createQuery(cq).getResultList();
     }
-
-    /**
-     * Load {@link List} of items by item id
-     *
-     * @param itemId
-     * @param queryName- is query for execute
-     * @return {@link List} of the items
-     */
-    List<T> loadItemsById(Long itemId, String queryName) {
-        Query q = entityManager.createNamedQuery(queryName);
-        q.setParameter("itemId", itemId);
-        return q.getResultList();
-    }
-
-
-//                      WTF?
-//    /**
-//     * Load {@link List} of items by item id
-//     *
-//     * @param firstId
-//     * @param secondId
-//     * @param queryName- is query for execute
-//     * @return {@link List} of the items
-//     */
-//    List<T> loadItemsByTwoIds(Long firstId, Long secondId, String queryName) {
-//        Query q = entityManager.createNamedQuery(queryName);
-//        q.setParameter("firstId", firstId);
-//        q.setParameter("secondId", secondId);
-//        return q.getResultList();
-//    }
-
 }

@@ -1,17 +1,12 @@
 package md.usarb.cinema.service;
 
-import com.sun.deploy.net.HttpRequest;
 import flexjson.JSONSerializer;
 import md.usarb.cinema.model.*;
-import md.usarb.cinema.repository.BookingDao;
-import md.usarb.cinema.repository.CinemaDao;
-import md.usarb.cinema.repository.MovieDao;
-import md.usarb.cinema.repository.PerformanceDao;
+import md.usarb.cinema.repository.*;
 import md.usarb.cinema.utils.CustomJsonDeserializer;
 import md.usarb.cinema.utils.ExcludeTransformer;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
@@ -21,7 +16,8 @@ public class CinemaServiceImpl {
    private MovieDao<Movie> movieDao = new MovieDao();
    private CinemaDao<Cinema> cinemaDao = new CinemaDao<>();
    private PerformanceDao<Performance> performanceDao = new PerformanceDao<>();
-   private BookingDao<Booking> bookingDao = new BookingDao<>();
+    private BookingDao<Booking> bookingDao = new BookingDao<>();
+   private CategoryDao<Category> categoryDao = new CategoryDao<>();
 
     @GET
     @Path("/movies/all")
@@ -38,6 +34,14 @@ public class CinemaServiceImpl {
     public String loadAllCinemas(){
         List<Cinema> movies = cinemaDao.findAll(Cinema.class);
         return new JSONSerializer().rootName("data").serialize(movies);
+    }
+
+    @GET
+    @Path("/categories/all")
+    @Produces({MediaType.APPLICATION_JSON + "; charset=UTF-8"})
+    public String loadAllCategories(){
+        List<Category> categories = categoryDao.findAll(Category.class);
+        return new JSONSerializer().rootName("data").serialize(categories);
     }
 
 //    @POST
@@ -75,20 +79,18 @@ public class CinemaServiceImpl {
     }
 
 
-    //    @POST
     @GET
-    @Path("/booking/movieId/{value}")
+    @Path("/booking/cinemas/movieId/{value}")
     @Consumes({MediaType.TEXT_PLAIN})
     @Produces({MediaType.APPLICATION_JSON})
     public String getCinemasByMovieId(@PathParam("value") Long movieId) {
         List<Cinema> cinemas = cinemaDao.loadCinemasByMovieId(movieId);
 
-        return new JSONSerializer().exclude("*.class").serialize(cinemas);
+        return new JSONSerializer().include("id", "cinemaName").exclude("*").serialize(cinemas);
     }
 
-    //    @POST
     @GET
-    @Path("/booking/movieId/{movieId}/cinemaId/{cinemaId}")
+    @Path("/booking/performances/movieId/{movieId}/cinemaId/{cinemaId}")
     @Consumes({MediaType.TEXT_PLAIN})
     @Produces({MediaType.APPLICATION_JSON})
     public String getPerformancesByMovieAndCinemaIds(@PathParam("movieId") Long movieId, @PathParam("cinemaId") Long cinemaId) {
@@ -99,13 +101,28 @@ public class CinemaServiceImpl {
 
     @POST
     @Path("/booking")
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.TEXT_PLAIN})
-    public String addBooking(Booking booking) {
-        if (booking != null) {
-            bookingDao.create(booking);
+    @Produces( { MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String addBooking(final String json) {
+        HashMap<String, Object> response = new HashMap<>();
+        Boolean success = false;
+        String message = "Your booking is not complete!";
+
+        if (json != null) {
+            Booking booking = CustomJsonDeserializer.jsonBookingDeserializer(json);
+
+            if (!booking.isEmpty()) {
+                Booking bookingNew = bookingDao.create(booking);
+
+                success = true;
+                message = "Your booking was successfully realised!";
+
+                response.put("booking", bookingNew);
+            }
         }
 
-        return "Success!";
+        response.put("success", success);
+        response.put("message", message);
+        return new JSONSerializer().serialize(response);
     }
 }

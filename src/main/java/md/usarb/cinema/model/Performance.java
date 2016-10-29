@@ -10,8 +10,8 @@ import java.time.LocalTime;
 @Table(name = "performances")
 @NamedQueries({
         @NamedQuery(name = "performance.loadListByMovieAndCinemaIds",
-                query = "SELECT C FROM Cinema C WHERE C.id IN " +
-                            "(SELECT S.cinema.id FROM Showing S " +
+                query = "SELECT P FROM Performance P WHERE P.id IN " +
+                            "(SELECT S.performance.id FROM Showing S " +
                                 "WHERE S.movie.id = (:movieId) AND S.cinema.id = (:cinemaId))"
         )
 })

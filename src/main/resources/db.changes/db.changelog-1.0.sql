@@ -219,3 +219,10 @@ ALTER TABLE movies
 ALTER TABLE customers
     ALTER COLUMN customer_name TYPE VARCHAR(50),
     ALTER COLUMN customer_phone TYPE VARCHAR(20);
+
+--changeset epopovici:8
+ALTER TABLE bookings
+  ALTER COLUMN booking_made_date SET DEFAULT now();
+
+ALTER TABLE showings
+  ADD CONSTRAINT showing_unique UNIQUE (cinema_id, movie_id, performance_id);
