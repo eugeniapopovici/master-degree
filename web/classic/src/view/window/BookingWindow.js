@@ -1,7 +1,7 @@
 Ext.define('Cinema.view.window.BookingWindow', {
     extend: 'Ext.window.Window',
     xtype: 'booking-window',
-
+    
     title: 'Hello',
     height: 200,
     width: 400,
