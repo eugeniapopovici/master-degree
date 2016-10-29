@@ -1,5 +1,6 @@
 package md.usarb.cinema.repository;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,7 +11,10 @@ public class GenericDao<T> {
     public static EntityManagerFactory entityManagerFactory;
 
     public T create(T t) {
-        entityManagerFactory.createEntityManager().persist(t);
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(t);
+        em.getTransaction().commit();
         return t;
     }
 
