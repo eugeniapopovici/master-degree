@@ -1,18 +1,31 @@
-var ageRatings = Ext.create('Ext.data.Store', {
-    fields: ['age'],
+var databases = Ext.create('Ext.data.Store', {
+    fields: ['database'],
     data: [
-        {"age": "12"},
-        {"age": "13"},
-        {"age": "14"},
-        {"age": "15"},
-        {"age": "16"},
-        {"age": "17"},
-        {"age": "18"},
-        {"age": "19"},
-        {"age": "20"},
-        {"age": "21"}
+        {"database": "PostgreSQL"},
+        {"database": "MSSQL"}
     ]
 });
+
+var algorithms = Ext.create('Ext.data.Store', {
+    fields: ['algorithm'],
+    data: [
+        {"algorithm": "Soundex"},
+        {"algorithm": "Levenshtein"}
+    ]
+});
+
+var fields = Ext.create('Ext.data.Store', {
+    fields: ['field'],
+    data: [
+        {"field": "First Name"},
+        {"field": "Last Name"},
+        {"field": "SSN"},
+        {"field": "Country"},
+        {"field": "City"},
+        {"field": "Company"}
+    ]
+});
+
 
 var cinemas = Ext.create('Ext.data.Store', {
     autoLoad: false,
@@ -26,36 +39,11 @@ var cinemas = Ext.create('Ext.data.Store', {
     }
 });
 
-var movieRatings = Ext.create('Ext.data.Store', {
-    fields: ['rating'],
-    data: [
-        {"rating": "1"},
-        {"rating": "2"},
-        {"rating": "3"},
-        {"rating": "4"},
-        {"rating": "5"},
-        {"rating": "6"},
-        {"rating": "7"},
-        {"rating": "8"},
-        {"rating": "9"},
-        {"rating": "10"}
-    ]
-});
-
-var performanceHours = Ext.create('Ext.data.Store', {
-    fields: ['id', 'time'],
-    data: [
-        {"id": "1", "time": "9:00 - 12:00"},
-        {"id": "2", "time": "13:00 - 16:00"},
-        {"id": "3", "time": "17:00 - 21:00"}
-    ]
-});
-
 Ext.define('Cinema.view.form.FilterForm', {
     extend: 'Ext.form.Panel',
     xtype: 'filter-form',
 
-    title: 'Movie Filter',
+    title: 'Employees Filter',
 
     layout: 'column',
 
@@ -63,80 +51,47 @@ Ext.define('Cinema.view.form.FilterForm', {
         layout: 'form',
         xtype: 'container',
         defaultType: 'textfield',
-        style: 'width: 33%'
+        style: 'width: 23%'
     },
 
     items: [{
         items: [
             {
-                fieldLabel: 'Movie',
-                name: 'movieName'
-            }, {
-                xtype: 'combobox',
-                fieldLabel: 'Cinema',
-                name: 'cinemaId',
-                store: cinemas,
-                displayField: 'cinemaName',
-                valueField: 'id'
-            }, {
-                fieldLabel: 'Genre',
-                name: 'movieGenre'
+                fieldLabel: 'Text to search',
+                name: 'text'
             }
         ]
     }, {
         items: [
             {
                 xtype: 'combobox',
-                fieldLabel: 'Age rating',
-                name: 'movieAge',
-                store: ageRatings,
-                displayField: 'age',
-                valueField: 'age'
-            }, {
-                xtype: 'combobox',
-                fieldLabel: 'Movie Rating',
-                name: 'movieRating',
-                store: movieRatings,
-                displayField: 'rating',
-                valueField: 'rating'
-            }, {
-                fieldLabel: 'Performance start time',
-                xtype: 'combobox',
-                name: 'performanceId',
-                store: performanceHours,
-                displayField: 'time',
+                fieldLabel: 'Field',
+                name: 'field',
+                store: fields,
+                displayField: 'field',
                 valueField: 'id'
             }
         ]
     }, {
+            items: [
+                {
+                    xtype: 'combobox',
+                    fieldLabel: 'Algorithm',
+                    name: 'algorithm',
+                    store: algorithms,
+                    displayField: 'algorithm',
+                    valueField: 'id'
+                }
+            ]
+        },{
         items: [
             {
-                xtype: 'radiogroup',
-                fieldLabel: 'Movie Type',
-                // columns: 3,
-                layout: {
-                    type: 'hbox',
-                    align: 'stretch'
-                    // align: 'middle',
-                    // pack: 'center'
-                },
-                // layout: 'fit',
-                // layout: 'hbox',
-                // width: '100%',
-                items: [
-                    {boxLabel: '2D', name: 'threeD', inputValue: 'false', checked: true, style: 'margin: 0 20px 0 0'},
-                    {boxLabel: '3D', name: 'threeD', inputValue: 'true'}
-                ]
-            }, {
-                fieldLabel: 'Showing start date',
-                xtype: 'datefield',
-                name: 'showingFromDate',
-                minValue: new Date()
-            }, {
-                fieldLabel: 'Showing end date',
-                xtype: 'datefield',
-                name: 'showingToDate',
-                minValue: new Date()
+                xtype: 'combobox',
+                fieldLabel: 'Database:',
+                name: 'database',
+                store: databases,
+                displayField: 'database',
+                valueField: 'id'
             }
         ]
     }],

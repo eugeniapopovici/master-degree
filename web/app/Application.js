@@ -6,7 +6,7 @@
 Ext.define('Cinema.Application', {
     extend: 'Ext.app.Application',
     
-    name: 'Cinema',
+    name: 'Fuzzy',
 
     stores: [
         // TODO: add global / shared stores here

@@ -1,7 +1,8 @@
 package md.usarb.cinema.controller;
 
-import md.usarb.cinema.repository.GenericDao;
-import md.usarb.cinema.service.CinemaServiceImpl;
+import md.usarb.cinema.repository.PostgreSQLGenericDao;
+import md.usarb.cinema.repository.SQLGenericDao;
+import md.usarb.cinema.service.EmployeeServiceImpl;
 
 import javax.persistence.Persistence;
 import javax.ws.rs.ApplicationPath;
@@ -17,9 +18,10 @@ public class ApplicationInit extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
-        GenericDao.entityManagerFactory = Persistence.createEntityManagerFactory("PGSQLPU");
+        PostgreSQLGenericDao.entityManagerFactory = Persistence.createEntityManagerFactory("PGSQLPU");
+        SQLGenericDao.entityManagerFactory = Persistence.createEntityManagerFactory("MSSQLPU");
         Set<Class<?>> classes = new HashSet<>();
-        classes.add(CinemaServiceImpl.class);
+        classes.add(EmployeeServiceImpl.class);
         return classes;
     }
 }

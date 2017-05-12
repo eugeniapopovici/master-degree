@@ -4,27 +4,30 @@
 
     <persistence-unit name="PGSQLPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>md.usarb.cinema.model.Address</class>
-        <class>md.usarb.cinema.model.Booking</class>
-        <class>md.usarb.cinema.model.Category</class>
-        <class>md.usarb.cinema.model.Cinema</class>
-        <class>md.usarb.cinema.model.CinemaCategory</class>
-        <class>md.usarb.cinema.model.CinemaCategoryPK</class>
-        <class>md.usarb.cinema.model.Customer</class>
-        <class>md.usarb.cinema.model.Movie</class>
-        <class>md.usarb.cinema.model.Performance</class>
-        <class>md.usarb.cinema.model.Showing</class>
+        <class>md.usarb.cinema.model.Employee</class>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/cinema"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/employee"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
             <property name="hibernate.connection.username" value="postgres"/>
             <property name="hibernate.connection.password" value="postgres"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect" />
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <!--<property name="hibernate.flushMode" value="FLUSH_AUTO" />-->
-            <!--<property name="hibernate.hbm2ddl.auto" value="update" />-->
-            <!--<property name="hibernate.archive.autodetection" value="class"/>-->
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="MSSQLPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>md.usarb.cinema.model.Employee</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:jtds:sqlserver://localhost:1433/employee"/>
+            <property name="hibernate.connection.driver_class" value="net.sourceforge.jtds.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="sa"/>
+            <property name="hibernate.connection.password" value=""/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.default_schema" value ="dbo"/>
         </properties>
     </persistence-unit>
 </persistence>

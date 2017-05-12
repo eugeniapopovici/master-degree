@@ -79,8 +79,8 @@ Ext.define('Cinema.view.main.Main', {
     },
 
     items: [{
-        title: 'Movies',
-        iconCls: 'fa-home',
+        title: 'Search',
+        iconCls: 'fa-search',
         items: [{
                 id: 'filterForm',
                 xtype: 'filter-form'
@@ -89,14 +89,5 @@ Ext.define('Cinema.view.main.Main', {
             xtype: 'mainlist'
         }]
     }
-        ,{
-        title: 'Bookings', 
-            iconCls: 'fa-clock-o',
-        items: [{
-            id: 'bookingsStore',
-            xtype: 'bookingslist'
-        }]
-    }
-
     ]
 });

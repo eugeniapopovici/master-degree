@@ -1,22 +1,14 @@
 package md.usarb.cinema.repository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
-public class GenericDao<T> {
+public class SQLGenericDao<T> {
 
     public static EntityManagerFactory entityManagerFactory;
 
-    public T create(T t) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(t);
-        em.getTransaction().commit();
-        return t;
-    }
 
     public T read(Class<T> tClass, Long id) {
         return entityManagerFactory.createEntityManager().find(tClass, id);
@@ -26,10 +18,6 @@ public class GenericDao<T> {
         return entityManagerFactory.createEntityManager().merge(t);
     }
 
-    public void delete(T t) {
-        t = entityManagerFactory.createEntityManager().merge(t);
-        entityManagerFactory.createEntityManager().remove(t);
-    }
 
     public T find(Class<T> clazz, Object o) {
         return entityManagerFactory.createEntityManager().find(clazz, o);
