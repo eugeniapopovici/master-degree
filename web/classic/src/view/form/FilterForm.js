@@ -39,6 +39,16 @@ var cinemas = Ext.create('Ext.data.Store', {
     }
 });
 
+console.log("dsd");
+cinemas.load({
+    callback: function (a, b, c) {
+        console.log(a);
+        console.log(b);
+        console.log(c);
+    }
+});
+console.log("dsd");
+
 Ext.define('Cinema.view.form.FilterForm', {
     extend: 'Ext.form.Panel',
     xtype: 'filter-form',

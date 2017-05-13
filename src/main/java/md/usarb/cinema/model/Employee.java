@@ -40,7 +40,7 @@ public class Employee {
     @Column(name = "street")
     private String street;
 
-    @Column(name = "zipCode")
+    @Column(name = "zip")
     private String zipCode;
 
     @Column(name = "company")
